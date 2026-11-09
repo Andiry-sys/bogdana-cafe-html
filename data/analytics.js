@@ -10,7 +10,9 @@
 window.SITE = window.SITE || {};
 
 SITE.analytics = {
-  ga4: '',       // Google Analytics 4 → "Measurement ID", looks like 'G-AB12CD34EF'
+  // Google tag from the GA4 setup (snippet with googletagmanager.com/gtm.js?id=…). Contains GA4 G-PJHVSJ2BW2.
+  googleTag: 'GTM-KN7HC6BB',
+  ga4: '',       // alternative: GA4 "Measurement ID" 'G-…' directly. Use googleTag OR ga4, not both (double counting)
   metaPixel: '', // Meta (Facebook / Instagram ads) Pixel ID, digits only, e.g. '123456789012345'
   clarity: '',   // Microsoft Clarity (free heatmaps + session recordings) project ID, e.g. 'abcd1234ef'
 };

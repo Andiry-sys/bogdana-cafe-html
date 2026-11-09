@@ -63,10 +63,14 @@
     var live = /^https?:$/.test(location.protocol) && !/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
     if (!live) return; // opened from a folder or localhost → don't count
     function load(src) { var s = document.createElement('script'); s.async = true; s.src = src; document.head.appendChild(s); }
-    if (AN.ga4) {
+    if (AN.googleTag || AN.ga4) {
       window.dataLayer = window.dataLayer || [];
-      window.gtag = function () { window.dataLayer.push(arguments); };
+      window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
       window.gtag('js', new Date());
+    }
+    if (AN.googleTag) { // same as Google's snippet: <script async src="…/gtm.js?id=GTM-…"> + gtag('js')
+      load('https://www.googletagmanager.com/gtm.js?id=' + encodeURIComponent(AN.googleTag));
+    } else if (AN.ga4) {
       window.gtag('config', AN.ga4);
       load('https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(AN.ga4));
     }
