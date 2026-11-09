@@ -2,9 +2,9 @@
    Copies only the public site into _site/ (without tools/, docs/, README, .git…).
    Used by Cloudflare (build command; see wrangler.jsonc) and by GitHub Actions. No npm install needed.
      node tools/build-site.mjs
-   SITE_URL (optional env variable, e.g. https://bogdana-cafe.<subdomain>.workers.dev/ or your domain):
-   replaces the placeholder https://USERNAME.github.io/bogdana-cafe/ in canonical / link-preview
-   tags, robots.txt and sitemap.xml — so you never have to edit those by hand.
+   The site address (https://pizza-brusenky.com.ua/) is written directly in the HTML, robots.txt and sitemap.xml.
+   SITE_URL (optional env variable) is only needed for a copy of the template that still has the placeholder
+   https://USERNAME.github.io/bogdana-cafe/ — it replaces it in canonical / link-preview tags, robots.txt, sitemap.xml.
    On Cloudflare (CF_PAGES / WORKERS_CI are set automatically) menu.html becomes /menu (Cloudflare's clean URL).
    ========================================================================= */
 import { cpSync, rmSync, readdirSync, readFileSync, writeFileSync, statSync } from 'node:fs';

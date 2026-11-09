@@ -272,19 +272,19 @@
   var siteUrl = canonical ? canonical.href.replace(/[^/]*$/, '') : location.href.replace(/[^/]*$/, '');
   var isMenu = !!document.querySelector('[data-cat-section], [data-pizzas^="category:"]');
   var ld = isMenu ? {
-    '@context': 'https://schema.org', '@type': 'Menu', name: 'Меню — ' + C.fullName, inLanguage: 'uk', url: siteUrl + 'menu.html',
+    '@context': 'https://schema.org', '@type': 'Menu', name: 'Меню — ' + C.fullName, inLanguage: 'uk', url: siteUrl + 'menu',
     hasMenuSection: (M.categories || []).map(function (c) {
       return {
         '@type': 'MenuSection', name: (c.title + ' ' + (M.page.sectionSuffix || '')).trim(),
         hasMenuItem: M.pizzas.filter(function (p) { return p.category === c.id; }).map(function (p) {
-          return { '@type': 'MenuItem', name: p.name, url: siteUrl + 'menu.html#' + p.id, image: siteUrl + 'assets/images/pizza/' + p.image + '-800.webp',
+          return { '@type': 'MenuItem', name: p.name, url: siteUrl + 'menu#' + p.id, image: siteUrl + 'assets/images/pizza/' + p.image + '-800.webp',
             description: S.common.pizza.dough + '; ' + p.ingredients.join(', ').toLowerCase() + '.' };
         }),
       };
     }),
   } : {
     '@context': 'https://schema.org', '@type': 'Restaurant', name: C.fullName, alternateName: C.name, url: siteUrl,
-    image: siteUrl + 'assets/images/og-image.jpg', telephone: C.phone, servesCuisine: 'Pizza', priceRange: '₴', hasMenu: siteUrl + 'menu.html',
+    image: siteUrl + 'assets/images/og-image.jpg', telephone: C.phone, servesCuisine: 'Pizza', priceRange: '₴', hasMenu: siteUrl + 'menu',
     address: { '@type': 'PostalAddress', streetAddress: A.street, addressLocality: A.villageName, addressRegion: A.district + ', ' + A.region, addressCountry: 'UA' },
     openingHoursSpecification: (C.hours || []).map(function (h) {
       return { '@type': 'OpeningHoursSpecification', dayOfWeek: h.days.map(function (d) { return DAYS[d]; }), opens: h.opens, closes: h.closes };

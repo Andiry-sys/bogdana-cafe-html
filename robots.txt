@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
 
-# Replace USERNAME with your GitHub username (or the whole URL with your domain)
-Sitemap: https://USERNAME.github.io/bogdana-cafe/sitemap.xml
+Sitemap: https://pizza-brusenky.com.ua/sitemap.xml

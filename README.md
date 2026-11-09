@@ -88,17 +88,19 @@ the settings are in `wrangler.jsonc`.
    connect GitHub → choose the repository.
 2. Project name `bogdana-cafe` · Build command `node tools/build-site.mjs` · Deploy command `npx wrangler deploy`
    (default). **Deploy** → the site is at `https://bogdana-cafe.<your-subdomain>.workers.dev`.
-3. Project → **Settings → Build → Variables**: `SITE_URL` = that address (later — your domain) → redeploy.
-   It puts the real address into the tags for Google / link previews, `robots.txt` and `sitemap.xml`.
-4. Cloudflare publishes after every commit — yours and the Instagram commits made by GitHub Actions.
-5. Own domain: project → **Settings → Domains & Routes → Add → Custom domain** (the domain must be on Cloudflare DNS).
-   Then change `SITE_URL` and redeploy.
+3. Cloudflare publishes after every commit — yours and the Instagram commits made by GitHub Actions.
 
-The older **Cloudflare Pages** flow works too (link to Pages on the create screen):
-build command `node tools/build-site.mjs`, output directory `_site`, env variable `SITE_URL`.
+### Domain: pizza-brusenky.com.ua
+1. Cloudflare → **Add a domain** → `pizza-brusenky.com.ua` → plan **Free** → Cloudflare shows 2 nameservers
+   (`xxx.ns.cloudflare.com`). In the domain registrar's panel replace the nameservers with these two.
+   Cloudflare emails when the domain is **Active** (minutes to 24 h).
+2. Worker `bogdana-cafe` → **Settings → Domains & Routes → Add → Custom domain** → `pizza-brusenky.com.ua`,
+   then once more for `www.pizza-brusenky.com.ua`. HTTPS certificates are issued automatically.
+3. The address is already written in the HTML (canonical / link previews), `robots.txt` and `sitemap.xml`.
+   Google: [search.google.com/search-console](https://search.google.com/search-console) → add the domain → submit
+   `https://pizza-brusenky.com.ua/sitemap.xml`. Google Business Profile / Instagram bio → put the new address.
 
-`tools/build-site.mjs` copies only the public files into `_site/` (no tools/docs/README) and puts the real site address
-into canonical/link-preview tags, `robots.txt` and `sitemap.xml` (placeholder `https://USERNAME.github.io/bogdana-cafe/`).
+`tools/build-site.mjs` copies only the public files into `_site/` (no tools/docs/README).
 
 ## Instagram — 5 latest posts, updated automatically
 How it works: GitHub Actions runs `tools/fetch-instagram.mjs` every 6 hours. It reads the account's latest posts
