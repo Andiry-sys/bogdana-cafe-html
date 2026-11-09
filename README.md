@@ -34,7 +34,7 @@ bogdana-cafe-html/
 │
 ├── docs/               ← CREDITS.md, client brief (UA), screenshots, attention heatmaps
 ├── tools/              ← build-site.mjs (publishing), fetch-instagram.mjs (Instagram), photo converter (optional)
-├── .github/workflows/deploy.yml ← refreshes Instagram every 6 h (+ publishes to GitHub Pages)
+├── .github/workflows/deploy.yml ← refreshes Instagram every 6 h (GitHub Actions)
 ├── wrangler.jsonc      ← Cloudflare settings (static site from _site/)
 ├── robots.txt · sitemap.xml · site.webmanifest · .nojekyll
 └── README.md
@@ -71,9 +71,8 @@ Double-click `index.html` (all paths are relative). Or serve the folder: `npx se
 
 ## Publish
 
-The code lives in a GitHub repository. Hosting: **Cloudflare Pages** (recommended for the client: free, fast in Ukraine,
-easy custom domain) or **GitHub Pages** (quick demo). In both cases the Instagram block is refreshed by GitHub Actions
-(`.github/workflows/deploy.yml`) and every change goes live automatically.
+The code lives in a GitHub repository, the site is hosted on **Cloudflare** (free, fast in Ukraine, easy custom domain).
+GitHub Actions (`.github/workflows/deploy.yml`) refreshes the Instagram block; Cloudflare publishes every commit automatically.
 
 ### 1. Put the project on GitHub (once)
 Create a repository (e.g. `bogdana-cafe`) and push this folder **with git** — the hidden `.github` folder must be included:
@@ -91,17 +90,12 @@ the settings are in `wrangler.jsonc`.
    (default). **Deploy** → the site is at `https://bogdana-cafe.<your-subdomain>.workers.dev`.
 3. Project → **Settings → Build → Variables**: `SITE_URL` = that address (later — your domain) → redeploy.
    It puts the real address into the tags for Google / link previews, `robots.txt` and `sitemap.xml`.
-4. GitHub repo → **Settings → Secrets and variables → Actions → Variables** → add `HOSTING` = `cloudflare`
-   (GitHub then only refreshes Instagram; Cloudflare publishes after every commit, including the Instagram ones).
+4. Cloudflare publishes after every commit — yours and the Instagram commits made by GitHub Actions.
 5. Own domain: project → **Settings → Domains & Routes → Add → Custom domain** (the domain must be on Cloudflare DNS).
    Then change `SITE_URL` and redeploy.
 
 The older **Cloudflare Pages** flow works too (link to Pages on the create screen):
 build command `node tools/build-site.mjs`, output directory `_site`, env variable `SITE_URL`.
-
-### 2b. GitHub Pages (demo)
-Repo **Settings → Pages → Source: GitHub Actions**. Every push publishes to `https://<username>.github.io/bogdana-cafe/`
-(the address is filled in automatically; for a custom domain add the variable `SITE_URL`).
 
 `tools/build-site.mjs` copies only the public files into `_site/` (no tools/docs/README) and puts the real site address
 into canonical/link-preview tags, `robots.txt` and `sitemap.xml` (placeholder `https://USERNAME.github.io/bogdana-cafe/`).
@@ -121,7 +115,7 @@ Setup, once (~10 min):
    *New feed* → type **JSON** → copy the feed URL (`https://feeds.behold.so/…`).
 3. GitHub repo → **Settings → Secrets and variables → Actions → Variables → New repository variable**:
    name `BEHOLD_FEED_URL`, value = the feed URL.
-4. **Actions → Update site → Run workflow** — the real posts appear in ~1 minute.
+4. **Actions → Update Instagram → Run workflow** — the real posts appear in ~1 minute.
 
 Limits of the free Behold plan: the feed refreshes **once a day**, 1 200 requests/month (our workflow uses ~120,
 visitors use none — images are served from the site itself). Faster refresh = a paid Behold plan.

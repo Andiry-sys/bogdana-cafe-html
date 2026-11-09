@@ -1,11 +1,9 @@
-# Keeps the Instagram block fresh and (optionally) publishes to GitHub Pages.
-#  - every push to main, every 6 hours, or by hand (Actions → "Update site" → Run workflow)
-#  - job "instagram": fetches the 5 latest posts (needs repo variable BEHOLD_FEED_URL) and commits them if new
-#  - job "github-pages": publishes the site to GitHub Pages
-#      → on Cloudflare Pages set repo variable HOSTING = cloudflare: this job is skipped and Cloudflare
-#        deploys by itself after every commit (including the Instagram commits).
-# Variables: Settings → Secrets and variables → Actions → Variables. See README.
-name: Update site
+# Keeps the Instagram block fresh. The site itself is published by Cloudflare
+# (it rebuilds automatically after every commit, including the ones made here).
+#  - every 6 hours, on every push to main, or by hand: Actions → "Update Instagram" → Run workflow
+#  - needs the repository variable BEHOLD_FEED_URL (Settings → Secrets and variables → Actions → Variables).
+#    Without it the workflow does nothing and finishes green. See README → Instagram.
+name: Update Instagram
 
 on:
   push:
@@ -14,15 +12,16 @@ on:
     - cron: '17 */6 * * *'
   workflow_dispatch:
 
+permissions:
+  contents: write # to commit new posts
+
 concurrency:
-  group: site
+  group: instagram
   cancel-in-progress: false
 
 jobs:
   instagram:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -45,29 +44,3 @@ jobs:
             git commit -m "Update Instagram posts"
             git push
           fi
-
-  github-pages:
-    needs: instagram
-    if: ${{ vars.HOSTING != 'cloudflare' }}
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - uses: actions/checkout@v5
-        with:
-          ref: main # includes the Instagram commit made a moment ago
-      - id: pages
-        uses: actions/configure-pages@v5
-      - name: Collect site files
-        env:
-          SITE_URL: ${{ vars.SITE_URL || steps.pages.outputs.base_url }}
-        run: node tools/build-site.mjs
-      - uses: actions/upload-pages-artifact@v4
-        with:
-          path: _site
-      - id: deployment
-        uses: actions/deploy-pages@v4
