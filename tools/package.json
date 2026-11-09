@@ -1,0 +1,13 @@
+{
+  "name": "bogdana-photo-tool",
+  "private": true,
+  "type": "module",
+  "description": "Optional helpers: phone photos → site-ready WebP; Instagram posts → site (used by GitHub Actions). The website itself needs no build.",
+  "scripts": {
+    "photos": "node process-photos.mjs",
+    "instagram": "node fetch-instagram.mjs"
+  },
+  "dependencies": {
+    "sharp": "^0.35.5"
+  }
+}

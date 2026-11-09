@@ -1,0 +1,73 @@
+# Keeps the Instagram block fresh and (optionally) publishes to GitHub Pages.
+#  - every push to main, every 6 hours, or by hand (Actions → "Update site" → Run workflow)
+#  - job "instagram": fetches the 5 latest posts (needs repo variable BEHOLD_FEED_URL) and commits them if new
+#  - job "github-pages": publishes the site to GitHub Pages
+#      → on Cloudflare Pages set repo variable HOSTING = cloudflare: this job is skipped and Cloudflare
+#        deploys by itself after every commit (including the Instagram commits).
+# Variables: Settings → Secrets and variables → Actions → Variables. See README.
+name: Update site
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: site
+  cancel-in-progress: false
+
+jobs:
+  instagram:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Fetch the 5 latest Instagram posts
+        if: ${{ vars.BEHOLD_FEED_URL != '' }}
+        env:
+          BEHOLD_FEED_URL: ${{ vars.BEHOLD_FEED_URL }}
+        run: |
+          cd tools
+          npm install --no-audit --no-fund --silent
+          node fetch-instagram.mjs
+      - name: Save new posts to the repository
+        run: |
+          git add data/instagram.js assets/images/instagram
+          if ! git diff --cached --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+            git commit -m "Update Instagram posts"
+            git push
+          fi
+
+  github-pages:
+    needs: instagram
+    if: ${{ vars.HOSTING != 'cloudflare' }}
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main # includes the Instagram commit made a moment ago
+      - id: pages
+        uses: actions/configure-pages@v5
+      - name: Collect site files
+        env:
+          SITE_URL: ${{ vars.SITE_URL || steps.pages.outputs.base_url }}
+        run: node tools/build-site.mjs
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4
