@@ -1,0 +1,11 @@
+// Cloudflare Workers settings for this static site (used by `npx wrangler deploy`).
+// Cloudflare runs: build `node tools/build-site.mjs` → uploads the folder _site/. No server code, nothing to pay.
+{
+  "name": "bogdana-cafe",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./_site",
+    "not_found_handling": "404-page",      // unknown address → 404.html
+    "html_handling": "auto-trailing-slash" // /menu.html opens as /menu
+  }
+}

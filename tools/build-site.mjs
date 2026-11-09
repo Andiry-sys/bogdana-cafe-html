@@ -1,11 +1,11 @@
 /* =========================================================================
    Copies only the public site into _site/ (without tools/, docs/, README, .git…).
-   Used by Cloudflare Pages (build command) and by GitHub Actions. No npm install needed.
+   Used by Cloudflare (build command; see wrangler.jsonc) and by GitHub Actions. No npm install needed.
      node tools/build-site.mjs
-   SITE_URL (optional env variable, e.g. https://bogdana-cafe.pages.dev/ or your domain):
+   SITE_URL (optional env variable, e.g. https://bogdana-cafe.<subdomain>.workers.dev/ or your domain):
    replaces the placeholder https://USERNAME.github.io/bogdana-cafe/ in canonical / link-preview
    tags, robots.txt and sitemap.xml — so you never have to edit those by hand.
-   CF_PAGES is set automatically by Cloudflare; then links to menu.html become /menu (Cloudflare's clean URL).
+   On Cloudflare (CF_PAGES / WORKERS_CI are set automatically) menu.html becomes /menu (Cloudflare's clean URL).
    ========================================================================= */
 import { cpSync, rmSync, readdirSync, readFileSync, writeFileSync, statSync } from 'node:fs';
 import path from 'node:path';
@@ -13,7 +13,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(ROOT, '_site');
-const SKIP = new Set(['_site', 'tools', 'docs', 'node_modules', 'README.md', '.git', '.github', '.gitignore', '.DS_Store', 'Thumbs.db']);
+const SKIP = new Set(['_site', 'tools', 'docs', 'node_modules', 'README.md', '.git', '.github', '.gitignore', '.wrangler', 'wrangler.jsonc', '.DS_Store', 'Thumbs.db']);
 const PLACEHOLDER = 'https://USERNAME.github.io/bogdana-cafe/';
 
 rmSync(OUT, { recursive: true, force: true });
@@ -33,8 +33,8 @@ if (url) {
     let text = readFileSync(file, 'utf8');
     if (!text.includes(PLACEHOLDER)) continue;
     text = text.split(PLACEHOLDER).join(url);
-    // Cloudflare Pages serves /menu.html as /menu → use the final address in canonical / sitemap
-    if (process.env.CF_PAGES) text = text.split(`${url}menu.html`).join(`${url}menu`);
+    // Cloudflare serves /menu.html as /menu → use the final address in canonical / sitemap
+    if (process.env.CF_PAGES || process.env.WORKERS_CI) text = text.split(`${url}menu.html`).join(`${url}menu`);
     writeFileSync(file, text);
   }
 }

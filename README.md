@@ -35,6 +35,7 @@ bogdana-cafe-html/
 ├── docs/               ← CREDITS.md, client brief (UA), screenshots, attention heatmaps
 ├── tools/              ← build-site.mjs (publishing), fetch-instagram.mjs (Instagram), photo converter (optional)
 ├── .github/workflows/deploy.yml ← refreshes Instagram every 6 h (+ publishes to GitHub Pages)
+├── wrangler.jsonc      ← Cloudflare settings (static site from _site/)
 ├── robots.txt · sitemap.xml · site.webmanifest · .nojekyll
 └── README.md
 ```
@@ -81,16 +82,22 @@ git init -b main && git add . && git commit -m "site"
 git remote add origin https://github.com/<username>/bogdana-cafe.git && git push -u origin main
 ```
 
-### 2a. Cloudflare Pages (recommended)
+### 2a. Cloudflare (recommended)
+Cloudflare now creates static sites as a **Worker with static assets** (free, requests to static files are unlimited);
+the settings are in `wrangler.jsonc`.
 1. [dash.cloudflare.com](https://dash.cloudflare.com) (free account) → **Workers & Pages** → **Create application** →
-   **Pages** → **Connect to Git** → allow access to the repository → **Begin setup**.
-2. Build settings: Framework preset **None** · Build command `node tools/build-site.mjs` · Build output directory `_site`.
-   Environment variable: `SITE_URL` = `https://<project>.pages.dev/` (later — your own domain).
-3. **Save and Deploy** → in ~1 minute the site is at `https://<project>.pages.dev`.
+   connect GitHub → choose the repository.
+2. Project name `bogdana-cafe` · Build command `node tools/build-site.mjs` · Deploy command `npx wrangler deploy`
+   (default). **Deploy** → the site is at `https://bogdana-cafe.<your-subdomain>.workers.dev`.
+3. Project → **Settings → Build → Variables**: `SITE_URL` = that address (later — your domain) → redeploy.
+   It puts the real address into the tags for Google / link previews, `robots.txt` and `sitemap.xml`.
 4. GitHub repo → **Settings → Secrets and variables → Actions → Variables** → add `HOSTING` = `cloudflare`
    (GitHub then only refreshes Instagram; Cloudflare publishes after every commit, including the Instagram ones).
-5. Own domain: Cloudflare project → **Custom domains** → **Set up a custom domain** → follow the DNS steps
-   (easiest if the domain itself is added to Cloudflare). Then change `SITE_URL` to the domain and redeploy.
+5. Own domain: project → **Settings → Domains & Routes → Add → Custom domain** (the domain must be on Cloudflare DNS).
+   Then change `SITE_URL` and redeploy.
+
+The older **Cloudflare Pages** flow works too (link to Pages on the create screen):
+build command `node tools/build-site.mjs`, output directory `_site`, env variable `SITE_URL`.
 
 ### 2b. GitHub Pages (demo)
 Repo **Settings → Pages → Source: GitHub Actions**. Every push publishes to `https://<username>.github.io/bogdana-cafe/`
