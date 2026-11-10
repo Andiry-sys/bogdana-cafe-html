@@ -1,6 +1,7 @@
 /* =========================================================================
    Copies only the public site into _site/ (without tools/, docs/, README, .git…).
-   Used by Cloudflare (build command; see wrangler.jsonc) and by GitHub Actions. No npm install needed.
+   Used by Cloudflare (build command; see wrangler.jsonc). No npm install needed.
+   Also inlines assets/css/style.css and the data/*.js + render.js scripts into each page (faster first paint).
      node tools/build-site.mjs
    The site address (https://pizza-brusenky.com.ua/) is written directly in the HTML, robots.txt and sitemap.xml.
    SITE_URL (optional env variable) is only needed for a copy of the template that still has the placeholder
@@ -38,4 +39,18 @@ if (url) {
     writeFileSync(file, text);
   }
 }
-console.log(`Site collected in _site/${url ? ` (URL: ${url})` : ''}`);
+// ---- Speed: inline the stylesheet and the small data/render scripts into every page ----
+// One request instead of ~9 before the page can be drawn. The source files stay separate (easy to edit,
+// and index.html still opens straight from the folder); only the published copy in _site/ is combined.
+const read = (rel) => readFileSync(path.join(OUT, rel), 'utf8');
+for (const page of readdirSync(OUT).filter((f) => f.endsWith('.html'))) {
+  const file = path.join(OUT, page);
+  let html = readFileSync(file, 'utf8');
+  html = html.replace(/<link rel="stylesheet" href="(assets\/css\/[^"]+\.css)">/g, (m, href) =>
+    `<style>${read(href).replace(/url\('\.\.\//g, "url('assets/")}</style>`);
+  // only classic scripts without defer/async (main.js stays external and deferred)
+  html = html.replace(/<script src="((?:data|assets\/js)\/[^"]+\.js)"><\/script>/g, (m, src) =>
+    `<script>/* ${src} */\n${read(src).replace(/<\/script/gi, '<\\/script')}</script>`);
+  writeFileSync(file, html);
+}
+console.log(`Site collected in _site/${url ? ` (URL: ${url})` : ''} — CSS and data scripts inlined`);
