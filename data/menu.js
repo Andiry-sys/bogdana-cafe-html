@@ -12,7 +12,7 @@ SITE.menu = {
   page: {
     breadcrumbsLabel: 'Хлібні крихти',
     title: 'Меню <em>на заквасці</em>', // HTML allowed
-    intro: 'Уся піца — на живій заквасці, без жодних дріжджів. Натисніть на піцу, щоб побачити склад, і телефонуйте — приготуємо за ~{readyMinutes} хвилин.',
+    intro: 'Уся піца — на живій заквасці, без жодних дріжджів. Натисніть на піцу, щоб побачити склад, і телефонуйте — приготуємо за {readyMinutes} хвилин.',
     categoriesLabel: 'Категорії',
     sectionSuffix: '', // added after each category title, e.g. 'піци' → "Класичні піци"; empty = nothing
   },

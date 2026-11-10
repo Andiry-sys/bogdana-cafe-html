@@ -180,6 +180,9 @@
           </span>
         </button>
         <dialog class="pdialog">
+          <!-- ‹ › previous / next pizza (also ← → keys and swipe) -->
+          <button type="button" class="pdialog__nav pdialog__nav--prev" data-pizza-nav="-1" data-aria="common.pizza.prev"><svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></button>
+          <button type="button" class="pdialog__nav pdialog__nav--next" data-pizza-nav="1" data-aria="common.pizza.next"><svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></button>
           <div class="pdialog__sheet">
             <button type="button" class="pdialog__close" data-close data-aria="common.close"><svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg></button>
             <div class="pdialog__media"><img data-pizza-img="popup" alt="" width="800" height="600" loading="lazy" decoding="async"></div>

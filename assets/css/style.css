@@ -196,6 +196,9 @@ address { font-style: normal; }
 .live-dot { position: relative; width: 0.625rem; height: 0.625rem; }
 .live-dot::before, .live-dot::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: var(--basil); }
 .live-dot::before { opacity: 0.6; }
+/* closed now (set by assets/js/main.js) → red dot, no pulse */
+html[data-open-now="false"] .live-dot::before, html[data-open-now="false"] .live-dot::after { background: var(--tomato); }
+html[data-open-now="false"] .live-dot::before { opacity: 0; animation: none; }
 
 /* Pizza visual: corner on phones, big on desktop */
 .hero__visual { position: absolute; top: -3rem; right: -27vw; width: 50vw; max-width: 22rem; pointer-events: none; }
@@ -299,6 +302,17 @@ address { font-style: normal; }
 @media (min-width: 640px) { .pdialog__sheet { display: grid; grid-template-columns: 1fr 1.1fr; border-radius: 1.75rem; max-height: 92dvh; } }
 .pdialog__close { position: absolute; top: 0.75rem; right: 0.75rem; z-index: 2; display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: 50%; background: rgb(255 255 255 / 0.92); box-shadow: var(--shadow-soft); }
 .pdialog__close .icon { width: 1.4rem; height: 1.4rem; }
+/* ‹ › next / previous pizza. Phones: over the photo; tablets: on the photo column; wide screens: outside the card */
+.pdialog__nav { position: absolute; z-index: 3; top: calc(min(100vw - 2rem, 26rem) / 4); transform: translateY(-50%); display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: 50%; background: rgb(255 255 255 / 0.92); color: var(--charcoal); box-shadow: var(--shadow-soft); transition: background-color 0.2s, transform 0.2s; }
+.pdialog__nav[hidden] { display: none; }
+.pdialog__nav:hover { background: var(--white); }
+.pdialog__nav:active { transform: translateY(-50%) scale(0.94); }
+.pdialog__nav .icon { width: 1.3rem; height: 1.3rem; }
+.pdialog__nav--prev { left: 0.75rem; }
+.pdialog__nav--prev .icon { transform: rotate(180deg); }
+.pdialog__nav--next { right: 0.75rem; }
+@media (min-width: 640px) { .pdialog__nav { top: 50%; } .pdialog__nav--next { right: auto; left: calc(100% / 2.1 - 3.5rem); } }
+@media (min-width: 960px) { .pdialog__nav--prev { left: -3.75rem; } .pdialog__nav--next { left: auto; right: -3.75rem; } }
 .pdialog__media { aspect-ratio: 2 / 1; overflow: hidden; background: var(--cream-3); }
 @media (min-width: 640px) { .pdialog__media { aspect-ratio: auto; } }
 .pdialog__media img { width: 100%; height: 100%; object-fit: cover; }

@@ -29,13 +29,16 @@ SITE.contacts = {
     villageName: 'Брусенки',
     district: 'Вижницький район',
     region: 'Чернівецька область',
-    // Text for Google Maps (map on the page + "Прокласти маршрут").
-    // When the cafe has a Google Maps profile, put its exact name here.
+    // Exact point on the map: used for the map on the page, "Прокласти маршрут" and Google data.
+    // To change: Google Maps → right-click the building → click the numbers to copy them.
+    lat: 48.2955665,
+    lng: 25.5424469,
+    // Used only if lat/lng are empty. When the cafe has a Google Maps profile, put its exact name here.
     mapsQuery: 'вул. Богдана Хмельницького 43А, Брусенки, Чернівецька область',
   },
 
-  // Pickup only — average time from the call to "pizza is ready" (minutes)
-  readyMinutes: 40,
+  // Pickup only — time from the call to "pizza is ready", in minutes (a number or a range like '30–40')
+  readyMinutes: '30–40',
 
   // PLACEHOLDER: opening hours. days: 0 = Sunday, 1 = Monday … 6 = Saturday
   hours: [

@@ -51,7 +51,8 @@
   function warn(path) { if (window.console) console.warn('[render] missing text: ' + path); }
 
   var TEL = 'tel:' + (C.phone || '');
-  var MAPS_Q = encodeURIComponent(A.mapsQuery || '');
+  var HAS_GEO = A.lat != null && A.lng != null && A.lat !== '' && A.lng !== '';
+  var MAPS_Q = encodeURIComponent(HAS_GEO ? A.lat + ',' + A.lng : (A.mapsQuery || '')); // exact pin if coordinates are set
   var LINKS = {
     route: 'https://www.google.com/maps/dir/?api=1&destination=' + MAPS_Q,
     embed: 'https://www.google.com/maps?q=' + MAPS_Q + '&z=15&output=embed',
@@ -290,6 +291,8 @@
     '@context': 'https://schema.org', '@type': 'Restaurant', name: C.fullName, alternateName: C.name, url: siteUrl,
     image: siteUrl + 'assets/images/og-image.jpg', telephone: C.phone, servesCuisine: 'Pizza', priceRange: '₴', hasMenu: siteUrl + 'menu',
     address: { '@type': 'PostalAddress', streetAddress: A.street, addressLocality: A.villageName, addressRegion: A.district + ', ' + A.region, addressCountry: 'UA' },
+    geo: HAS_GEO ? { '@type': 'GeoCoordinates', latitude: Number(A.lat), longitude: Number(A.lng) } : undefined,
+    hasMap: 'https://www.google.com/maps/search/?api=1&query=' + MAPS_Q,
     openingHoursSpecification: (C.hours || []).map(function (h) {
       return { '@type': 'OpeningHoursSpecification', dayOfWeek: h.days.map(function (d) { return DAYS[d]; }), opens: h.opens, closes: h.closes };
     }),

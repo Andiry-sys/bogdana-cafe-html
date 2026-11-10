@@ -5,7 +5,7 @@
    1. "Відчинено зараз" label — computed from the hours in data/contacts.js
    2. Header shadow on scroll
    3. Reveal fallback for browsers without CSS scroll-driven animations
-   4. Pizza popups (<dialog>) + deep links menu.html#margherita
+   4. Pizza popups (<dialog>) + deep links menu.html#margherita + ‹ › next / previous pizza
    5. Active category chip on the menu page
    6. Analytics hook: tracks taps on phone numbers / messengers if GA4 / Meta Pixel are installed
    7. Order via Viber / Telegram: pizza name in the pre-typed message
@@ -56,11 +56,18 @@
     var day = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(get('weekday'));
     var now = (Number(get('hour')) % 24) * 60 + Number(get('minute'));
     var today = HOURS.find(function (h) { return h.days.indexOf(day) !== -1; });
-    if (today && now >= toMin(today.opens) && now < toMin(today.closes)) return T.open.replace('{time}', today.closes);
-    if (today && now < toMin(today.opens)) return T.opensToday.replace('{time}', today.opens);
-    return T.closed + ' · ' + HOURS_SHORT;
+    if (today && now >= toMin(today.opens) && now < toMin(today.closes)) return { open: true, text: T.open.replace('{time}', today.closes) };
+    if (today && now < toMin(today.opens)) return { open: false, text: T.opensToday.replace('{time}', today.opens) };
+    return { open: false, text: T.closed + ' · ' + HOURS_SHORT };
   }
-  document.querySelectorAll('[data-open-status]').forEach(function (el) { el.textContent = openStatus(); });
+  // text + green (open) / red (closed) dot; re-checked every minute
+  function showOpenStatus() {
+    var st = openStatus();
+    root.setAttribute('data-open-now', st.open ? 'true' : 'false');
+    document.querySelectorAll('[data-open-status]').forEach(function (el) { el.textContent = st.text; });
+  }
+  showOpenStatus();
+  setInterval(showOpenStatus, 60000);
 
   /* ---------- 4. Pizza popups ---------- */
   function dialogFor(id) { return document.getElementById('pz-' + id); }
@@ -85,9 +92,53 @@
 
   document.querySelectorAll('dialog.pdialog').forEach(function (dlg) {
     dlg.addEventListener('close', function () {
-      root.classList.remove('no-scroll');
+      if (!document.querySelector('dialog.pdialog[open]')) root.classList.remove('no-scroll'); // not when switching to the next pizza
       if (location.hash === '#' + dlg.id.slice(3)) history.replaceState(null, '', location.pathname + location.search);
     });
+  });
+
+  /* ‹ › previous / next pizza inside the popup: arrow buttons, ← → keys, swipe on phones.
+     Goes through the pizzas of the same list (menu page: whole menu; home page: the 4 cards) and loops. */
+  function pizzaList(dlg) {
+    var list = dlg.closest('[data-pizzas]');
+    return Array.prototype.slice.call((list || document).querySelectorAll('dialog.pdialog'));
+  }
+  function stepPizza(dlg, dir, focusNav) {
+    var all = pizzaList(dlg);
+    if (all.length < 2) return;
+    var next = all[(all.indexOf(dlg) + dir + all.length) % all.length];
+    dlg.close();
+    openPizza(next.id.slice(3));
+    if (focusNav) { var b = next.querySelector('[data-pizza-nav="' + dir + '"]'); if (b) b.focus(); }
+  }
+  document.querySelectorAll('dialog.pdialog').forEach(function (dlg) {
+    var all = pizzaList(dlg);
+    if (all.length < 2) dlg.querySelectorAll('[data-pizza-nav]').forEach(function (b) { b.hidden = true; });
+    // load the neighbours' photos when this popup opens, so the arrows feel instant
+    dlg.addEventListener('toggle', function () {
+      if (!dlg.open) return;
+      var i = all.indexOf(dlg);
+      [all[(i + 1) % all.length], all[(i - 1 + all.length) % all.length]].forEach(function (d) {
+        d.querySelectorAll('img[loading="lazy"]').forEach(function (img) { img.loading = 'eager'; });
+      });
+    });
+    var x0 = null, y0 = 0;
+    dlg.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
+    dlg.addEventListener('touchend', function (e) {
+      if (x0 === null) return;
+      var dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+      x0 = null;
+      if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) stepPizza(dlg, dx < 0 ? 1 : -1);
+    }, { passive: true });
+  });
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-pizza-nav]');
+    if (b) stepPizza(b.closest('dialog'), Number(b.getAttribute('data-pizza-nav')), true);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    var dlg = document.querySelector('dialog.pdialog[open]');
+    if (dlg) { e.preventDefault(); stepPizza(dlg, e.key === 'ArrowRight' ? 1 : -1); }
   });
 
   function openFromHash() {
