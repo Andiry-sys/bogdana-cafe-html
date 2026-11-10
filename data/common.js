@@ -35,6 +35,7 @@ SITE.common = {
 
   pizza: {
     more: 'Склад і замовлення',
+    currency: '₴',
     ingredientsTitle: 'Склад',
     dough: 'Тісто на живій заквасці, без дріжджів',
     prev: 'Попередня піца',

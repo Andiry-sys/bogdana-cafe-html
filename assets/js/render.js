@@ -191,6 +191,8 @@
   function renderPizza(p, eager) {
     var tpl = document.getElementById('tpl-pizza');
     var frag = tpl.content.cloneNode(true);
+    // "199 ₴" — an empty value removes the price element
+    p = Object.assign({ priceText: p.price ? p.price + '\u00a0' + ((S.common.pizza || {}).currency || '₴') : '' }, p);
     fillItem(frag, p, 0);
     var article = frag.querySelector('[data-pizza-article]');
     article.id = p.id;
@@ -283,13 +285,14 @@
         '@type': 'MenuSection', name: (c.title + ' ' + (M.page.sectionSuffix || '')).trim(),
         hasMenuItem: M.pizzas.filter(function (p) { return p.category === c.id; }).map(function (p) {
           return { '@type': 'MenuItem', name: p.name, url: siteUrl + 'menu#' + p.id, image: siteUrl + 'assets/images/pizza/' + p.image + '-800.webp',
-            description: S.common.pizza.dough + '; ' + p.ingredients.join(', ').toLowerCase() + '.' };
+            description: S.common.pizza.dough + '; ' + p.ingredients.join(', ').toLowerCase() + '.',
+            offers: p.price ? { '@type': 'Offer', price: p.price, priceCurrency: 'UAH' } : undefined };
         }),
       };
     }),
   } : {
     '@context': 'https://schema.org', '@type': 'Restaurant', name: C.fullName, alternateName: C.name, url: siteUrl,
-    image: siteUrl + 'assets/images/og-image.jpg', telephone: C.phone, servesCuisine: 'Pizza', priceRange: '₴', hasMenu: siteUrl + 'menu',
+    image: siteUrl + 'assets/images/og-image.jpg', telephone: C.phone, servesCuisine: 'Pizza', priceRange: (function () { var ps = (M.pizzas || []).map(function (p) { return p.price; }).filter(Boolean); return ps.length ? Math.min.apply(null, ps) + '–' + Math.max.apply(null, ps) + ' UAH' : '₴'; })(), hasMenu: siteUrl + 'menu',
     address: { '@type': 'PostalAddress', streetAddress: A.street, addressLocality: A.villageName, addressRegion: A.district + ', ' + A.region, addressCountry: 'UA' },
     geo: HAS_GEO ? { '@type': 'GeoCoordinates', latitude: Number(A.lat), longitude: Number(A.lng) } : undefined,
     hasMap: 'https://www.google.com/maps/search/?api=1&query=' + MAPS_Q,
