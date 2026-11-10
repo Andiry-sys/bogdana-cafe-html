@@ -47,6 +47,10 @@ SITE.contacts = {
   ],
   hoursShort: 'Щодня з 10:00',
 
+  // Google Maps profile (rating, reviews, photos). Used for «Відгуки в Google» and for Google data.
+  // To change: open the profile on Google Maps → Share → copy the link.
+  googleMaps: 'https://maps.google.com/?cid=4226999667722841224',
+
   // Social networks. Add / remove lines. icon: instagram | tiktok | facebook | telegram | google
   instagram: 'pizza.brusenky', // handle for the Instagram block (without @)
   socials: [
@@ -54,6 +58,6 @@ SITE.contacts = {
     // { icon: 'tiktok', label: 'TikTok', url: 'https://www.tiktok.com/@…' },
     // { icon: 'facebook', label: 'Facebook', url: 'https://www.facebook.com/bogdana.cafe' },
     // { icon: 'telegram', label: 'Telegram', url: 'https://t.me/bogdana_cafe' },
-    { icon: 'google', label: 'Ми на Google Maps', url: 'https://www.google.com/maps/search/?api=1&query=Магазин-кафе+Богдана+Брусенки' },
+    { icon: 'google', label: 'Ми на Google Maps', url: 'https://maps.google.com/?cid=4226999667722841224' },
   ],
 };

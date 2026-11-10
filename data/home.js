@@ -94,6 +94,7 @@ SITE.home = {
     title: 'Де нас знайти',
     addressLabel: 'Адреса',
     route: 'Прокласти маршрут',
+    reviews: 'Відгуки в Google',
     hoursLabel: 'Графік',
     orderLabel: 'Замовлення',
     socialsLabel: 'Соцмережі',

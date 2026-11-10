@@ -274,6 +274,7 @@
   $$('.msg-btns').forEach(function (box) { if (!box.children.length) (box.closest('.hero__msg') || box).remove(); });
   $$('[data-phone]').forEach(function (el) { el.textContent = nbsp(C.phoneDisplay || ''); });
   $$('[data-maps-route]').forEach(function (a) { a.href = LINKS.route; });
+  $$('[data-google-maps]').forEach(function (a) { if (C.googleMaps) a.href = C.googleMaps; else a.remove(); });
   $$('[data-maps-embed]').forEach(function (f) { f.src = LINKS.embed; f.title = 'Карта: ' + C.fullName + ', ' + VARS.fullAddress; });
   $$('[data-instagram]').forEach(function (a) { a.href = LINKS.instagram; });
   $$('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
@@ -302,11 +303,11 @@
     image: siteUrl + 'assets/images/og-image.jpg', telephone: C.phone, servesCuisine: 'Pizza', priceRange: (function () { var ps = (M.pizzas || []).map(function (p) { return p.price; }).filter(Boolean); return ps.length ? Math.min.apply(null, ps) + '–' + Math.max.apply(null, ps) + ' UAH' : '₴'; })(), hasMenu: siteUrl + 'menu',
     address: { '@type': 'PostalAddress', streetAddress: A.street, addressLocality: A.villageName, addressRegion: A.district + ', ' + A.region, addressCountry: 'UA' },
     geo: HAS_GEO ? { '@type': 'GeoCoordinates', latitude: Number(A.lat), longitude: Number(A.lng) } : undefined,
-    hasMap: 'https://www.google.com/maps/search/?api=1&query=' + MAPS_Q,
+    hasMap: C.googleMaps || 'https://www.google.com/maps/search/?api=1&query=' + MAPS_Q,
     openingHoursSpecification: (C.hours || []).map(function (h) {
       return { '@type': 'OpeningHoursSpecification', dayOfWeek: h.days.map(function (d) { return DAYS[d]; }), opens: h.opens, closes: h.closes };
     }),
-    sameAs: (C.socials || []).filter(function (s) { return s.icon !== 'google'; }).map(function (s) { return s.url; }),
+    sameAs: (C.socials || []).map(function (s) { return s.url; }).filter(function (u, i, all) { return u && all.indexOf(u) === i; }),
   };
   if (document.querySelector('main .notfound')) ld = null;
   // FAQ block on the home page → FAQPage data for Google
