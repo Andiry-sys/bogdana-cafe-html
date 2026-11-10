@@ -32,7 +32,14 @@
     phoneDisplay: C.phoneDisplay,
     instagram: C.instagram,
     fermentationHours: S.home ? S.home.fermentationHours : '',
+    // for texts like the FAQ: "Пн–Пт 10:00–21:00, Сб–Нд 11:00–21:00" and the cheapest / most expensive pizza
+    hoursText: (C.hours || []).map(function (h) { return h.label + ' ' + h.opens + '–' + h.closes; }).join(', '),
+    priceMin: '', priceMax: '',
   };
+  (function () {
+    var ps = ((S.menu && S.menu.pizzas) || []).map(function (p) { return p.price; }).filter(Boolean);
+    if (ps.length) { VARS.priceMin = Math.min.apply(null, ps); VARS.priceMax = Math.max.apply(null, ps); }
+  })();
 
   /* ---------- helpers ---------- */
   function $$(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
@@ -302,6 +309,16 @@
     sameAs: (C.socials || []).filter(function (s) { return s.icon !== 'google'; }).map(function (s) { return s.url; }),
   };
   if (document.querySelector('main .notfound')) ld = null;
+  // FAQ block on the home page → FAQPage data for Google
+  var faq = S.home && S.home.faq;
+  if (ld && !isMenu && faq && faq.items && document.querySelector('[data-list="home.faq.items"]')) {
+    var faqLd = document.createElement('script');
+    faqLd.type = 'application/ld+json';
+    faqLd.textContent = JSON.stringify({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.items.map(function (it) {
+      return { '@type': 'Question', name: fill(it.q).replace(/\u00a0/g, ' '), acceptedAnswer: { '@type': 'Answer', text: fill(it.a).replace(/\u00a0/g, ' ') } };
+    }) });
+    document.head.appendChild(faqLd);
+  }
   document.documentElement.classList.add('ready'); // show the filled page (see style.css)
   if (ld) {
     var script = document.createElement('script');

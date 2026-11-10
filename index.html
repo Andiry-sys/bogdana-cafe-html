@@ -215,6 +215,17 @@
       <ul class="insta__row" data-list="home.instagram.photos" data-tpl="tpl-insta"></ul>
     </section>
 
+    <!-- ============ FAQ: questions & answers (data/home.js → faq) ============ -->
+    <section class="faq" id="faq" aria-labelledby="faq-title">
+      <div class="container faq__inner">
+        <div data-reveal>
+          <p class="eyebrow" data-t="home.faq.eyebrow"></p>
+          <h2 class="section-title" id="faq-title" data-t="home.faq.title"></h2>
+        </div>
+        <div class="faq__list" data-list="home.faq.items" data-tpl="tpl-faq"></div>
+      </div>
+    </section>
+
     <!-- ============ 7. CONTACTS: address, hours, phone, socials, map ============ -->
     <section class="contacts" id="contacts" aria-labelledby="contacts-title">
       <div class="container">
@@ -313,6 +324,9 @@
   </template>
   <template id="tpl-perk">
     <li class="perk" data-reveal="scale"><span class="perk__icon"><svg class="icon" aria-hidden="true"><use data-f-icon="icon"></use></svg></span><h3 data-f="title"></h3><p data-f="text"></p></li>
+  </template>
+  <template id="tpl-faq">
+    <details class="faq__item"><summary class="faq__q"><span data-f="q"></span></summary><p class="faq__a" data-f="a"></p></details>
   </template>
   <template id="tpl-insta">
     <li><a class="insta__tile" target="_blank" rel="noopener" data-instagram data-f-aria><span class="insta__media"><img data-insta-img alt="" width="640" height="640" loading="lazy" decoding="async"></span><span class="insta__cap" data-insta-text></span><time class="insta__date" data-insta-date></time></a></li>
