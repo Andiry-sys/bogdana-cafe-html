@@ -55,6 +55,9 @@ SITE.contacts = {
   // To change: open the profile on Google Maps → Share → copy the link.
   googleMaps: 'https://maps.google.com/?cid=4226999667722841224',
 
+  // «Прокласти маршрут» opens this link. '' = route to the coordinates above (lat/lng).
+  routeUrl: 'https://maps.app.goo.gl/2oAJkhLVbfYVxCjZA',
+
   // Social networks. Add / remove lines. icon: instagram | tiktok | facebook | telegram | google
   instagram: 'pizza.brusenky', // handle for the Instagram block (without @)
   socials: [

@@ -62,7 +62,7 @@
   var HAS_GEO = A.lat != null && A.lng != null && A.lat !== '' && A.lng !== '';
   var MAPS_Q = encodeURIComponent(HAS_GEO ? A.lat + ',' + A.lng : (A.mapsQuery || '')); // exact pin if coordinates are set
   var LINKS = {
-    route: 'https://www.google.com/maps/dir/?api=1&destination=' + MAPS_Q,
+    route: C.routeUrl || 'https://www.google.com/maps/dir/?api=1&destination=' + MAPS_Q, // contacts.routeUrl wins
     embed: 'https://www.google.com/maps?q=' + MAPS_Q + '&z=15&output=embed',
     instagram: 'https://www.instagram.com/' + (C.instagram || '') + '/',
   };
