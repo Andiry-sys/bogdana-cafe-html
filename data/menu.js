@@ -5,6 +5,7 @@
    assets/images/pizza/<image>-480.webp and <image>-800.webp.
    The link menu.html#<id> opens that pizza directly (handy for Instagram stories).
    price: number in ₴ (shown on the card and in the popup; remove the field to hide the price).
+   dough: false — hides «Тісто на живій заквасці…» in the popup (for pastry, desserts).
    Optional fields: tags: ['new'] (see `tags` below), nameIt: 'Margherita' (small Italian name on the card).
    ========================================================================= */
 window.SITE = window.SITE || {};
@@ -31,6 +32,7 @@ SITE.menu = {
   // One category → the category chips are hidden automatically. Add more to split the menu.
   categories: [
     { id: 'pizza', title: 'Наша піца', subtitle: 'Смачна піца зі свіжих інгредієнтів' },
+    { id: 'pastry', title: 'Випічка', subtitle: 'Солодке до кави або з собою' },
   ],
 
   pizzas: [
@@ -89,6 +91,15 @@ SITE.menu = {
       short: 'Вершковий соус, моцарела, куряче філе, ананаси',
       ingredients: ['Вершковий соус', 'Моцарела', 'Куряче філе', 'Ананаси'],
       alt: 'Піца «Гавайська» з куркою та ананасами',
+    },
+
+    /* ---------- Випічка ---------- */
+    {
+      id: 'eclair', category: 'pastry', image: 'eclair', dough: false, // price: 00,  ← add the price here
+      name: 'Еклер із сирною начинкою',
+      short: 'Заварне тістечко з сирною начинкою',
+      ingredients: ['Заварне тісто', 'Сирна начинка'],
+      alt: 'Тістечка еклер із сирною начинкою на тарілці',
     },
   ],
 };

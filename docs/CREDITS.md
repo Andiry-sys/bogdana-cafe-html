@@ -12,8 +12,8 @@ Unsplash photo for each slot — review it before use.
 
 | File(s) in `assets/images/` | Used for | Current source | Suggested stock photo (Unsplash) | Status |
 | --- | --- | --- | --- | --- |
-| `hero/pizza-480.webp`<br>`hero/pizza-800.webp`<br>`hero/pizza-1200.webp` | Hero — top-down pizza (shown in a circle; pizza should fill the frame) | Illustrated placeholder (generated) | [unsplash.com/photos/DPrldCuaoJ8](https://unsplash.com/photos/DPrldCuaoJ8) | ⚠️ Placeholder |
-| `pizza/salami-480.webp`<br>`pizza/salami-800.webp` | Menu — Салямі | Illustrated placeholder (generated) | — | ⚠️ Placeholder — replace with a real photo |
+| `hero/pizza-480.webp`<br>`hero/pizza-800.webp`<br>`hero/pizza-1200.webp` | Hero — top-down pizza (shown in a circle) | Cafe's own photo (Салямі), Nov 2026 | — | ✅ Real photo |
+| `pizza/salami-480.webp`<br>`pizza/salami-800.webp` | Menu — Салямі | Cafe's own photo, Nov 2026 | — | ✅ Real photo |
 | `pizza/chicken-480.webp`<br>`pizza/chicken-800.webp` | Menu — Піца з куркою | Illustrated placeholder (generated) | — | ⚠️ Placeholder — replace with a real photo |
 | `pizza/quattro-formaggi-480.webp`<br>`pizza/quattro-formaggi-800.webp` | Menu — Чотири сири | Illustrated placeholder (generated) | — | ⚠️ Placeholder — replace with a real photo |
 | `pizza/mushroom-480.webp`<br>`pizza/mushroom-800.webp` | Menu — Грибна | Illustrated placeholder (generated) | — | ⚠️ Placeholder — replace with a real photo |
@@ -21,6 +21,7 @@ Unsplash photo for each slot — review it before use.
 | `pizza/quattro-stagioni-480.webp`<br>`pizza/quattro-stagioni-800.webp` | Menu — Чотири сезони | Illustrated placeholder (generated) | — | ⚠️ Placeholder — replace with a real photo |
 | `pizza/caesar-480.webp`<br>`pizza/caesar-800.webp` | Menu — Цезар | Illustrated placeholder (generated) | — | ⚠️ Placeholder — replace with a real photo |
 | `pizza/hawaiian-480.webp`<br>`pizza/hawaiian-800.webp` | Menu — Гавайська | Illustrated placeholder (generated) | — | ⚠️ Placeholder — replace with a real photo |
+| `pizza/eclair-480.webp`<br>`pizza/eclair-800.webp` | Menu — Еклер із сирною начинкою | Cafe's own photo, Nov 2026 | — | ✅ Real photo |
 | `instagram/1-320.webp`<br>`instagram/1-640.webp` | Instagram strip — photo 1 | Illustrated placeholder (generated) | [unsplash.com/photos/zTxiTnTag78](https://unsplash.com/photos/zTxiTnTag78) | ⚠️ Placeholder |
 | `instagram/2-320.webp`<br>`instagram/2-640.webp` | Instagram strip — photo 2 | Illustrated placeholder (generated) | [unsplash.com/photos/wZyxpSGwW0g](https://unsplash.com/photos/wZyxpSGwW0g) | ⚠️ Placeholder |
 | `instagram/3-320.webp`<br>`instagram/3-640.webp` | Instagram strip — photo 3 | Illustrated placeholder (generated) | [unsplash.com/photos/ivlhp7u4Bok](https://unsplash.com/photos/ivlhp7u4Bok) | ⚠️ Placeholder |
@@ -32,6 +33,6 @@ Unsplash photo for each slot — review it before use.
 
 | File | Source |
 | --- | --- |
-| `assets/images/og-image.jpg` | Generated for the demo (replace with a real photo, 1200×630) |
+| `assets/images/og-image.jpg` | Link preview — cafe's own photo of Салямі (1200×630), Nov 2026 |
 | `assets/icons/*` | Original logo mark drawn for this project |
 | Fonts (`assets/fonts/`) | Inter & Playfair Display — Google Fonts, SIL Open Font License 1.1 |

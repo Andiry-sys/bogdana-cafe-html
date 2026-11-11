@@ -37,7 +37,8 @@
     priceMin: '', priceMax: '',
   };
   (function () {
-    var ps = ((S.menu && S.menu.pizzas) || []).map(function (p) { return p.price; }).filter(Boolean);
+    // pizzas only (not pastry) — used in «Скільки коштує піца?»
+    var ps = ((S.menu && S.menu.pizzas) || []).filter(function (p) { return p.dough !== false; }).map(function (p) { return p.price; }).filter(Boolean);
     if (ps.length) { VARS.priceMin = Math.min.apply(null, ps); VARS.priceMax = Math.max.apply(null, ps); }
   })();
 
@@ -229,6 +230,7 @@
         box.appendChild(s);
       });
     });
+    if (p.dough === false) $$('.is-dough', frag).forEach(function (li) { li.remove(); }); // pastry: no sourdough line
     var ul = frag.querySelector('[data-pizza-ingredients]');
     (p.ingredients || []).forEach(function (ing) {
       var li = document.createElement('li');
@@ -293,7 +295,7 @@
         '@type': 'MenuSection', name: (c.title + ' ' + (M.page.sectionSuffix || '')).trim(),
         hasMenuItem: M.pizzas.filter(function (p) { return p.category === c.id; }).map(function (p) {
           return { '@type': 'MenuItem', name: p.name, url: siteUrl + 'menu#' + p.id, image: siteUrl + 'assets/images/pizza/' + p.image + '-800.webp',
-            description: S.common.pizza.dough + '; ' + p.ingredients.join(', ').toLowerCase() + '.',
+            description: (p.dough === false ? '' : S.common.pizza.dough + '; ') + p.ingredients.join(', ').toLowerCase() + '.',
             offers: p.price ? { '@type': 'Offer', price: p.price, priceCurrency: 'UAH' } : undefined };
         }),
       };
