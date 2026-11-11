@@ -301,7 +301,7 @@
       };
     }),
   } : {
-    '@context': 'https://schema.org', '@type': 'Restaurant', name: C.fullName, alternateName: C.name, url: siteUrl,
+    '@context': 'https://schema.org', '@type': 'Restaurant', name: C.fullName, alternateName: C.venue || undefined, url: siteUrl,
     image: siteUrl + 'assets/images/og-image.jpg', telephone: C.phone, servesCuisine: 'Pizza', priceRange: (function () { var ps = (M.pizzas || []).map(function (p) { return p.price; }).filter(Boolean); return ps.length ? Math.min.apply(null, ps) + '–' + Math.max.apply(null, ps) + ' UAH' : '₴'; })(), hasMenu: siteUrl + 'menu',
     address: { '@type': 'PostalAddress', streetAddress: A.street, addressLocality: A.villageName, addressRegion: A.district + ', ' + A.region, addressCountry: 'UA' },
     geo: HAS_GEO ? { '@type': 'GeoCoordinates', latitude: Number(A.lat), longitude: Number(A.lng) } : undefined,

@@ -6,9 +6,13 @@
 window.SITE = window.SITE || {};
 
 SITE.contacts = {
-  name: 'Богдана',
-  fullName: 'Магазин-кафе «Богдана»',
-  kind: 'Магазин-кафе',
+  name: 'Брусенки',            // big italic word in the logo
+  kind: 'Піцерія',             // small caps word above it
+  fullName: 'Піцерія Брусенки',
+  // The shop the pizzeria is in (old site name). Shown small under the address and sent to Google
+  // as an alternative name, so people and Google who know «Богдана» still find us. '' hides it.
+  venue: 'Магазин-кафе «Богдана»',
+  venueLine: 'У магазині-кафе «Богдана»',
 
   // Phone: `phone` is used for the call link, `phoneDisplay` is what people see.
   phone: '+380956502219',
@@ -45,7 +49,7 @@ SITE.contacts = {
     { label: 'Пн–Пт', days: [1, 2, 3, 4, 5], opens: '10:00', closes: '21:00' },
     { label: 'Сб–Нд', days: [6, 0], opens: '11:00', closes: '21:00' },
   ],
-  hoursShort: 'Щодня з 10:00',
+  hoursShort: 'Пн–Пт з 10:00, Сб–Нд з 11:00', // footer + «Зараз зачинено · …»
 
   // Google Maps profile (rating, reviews, photos). Used for «Відгуки в Google» and for Google data.
   // To change: open the profile on Google Maps → Share → copy the link.

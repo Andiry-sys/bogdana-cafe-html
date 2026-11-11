@@ -1,5 +1,5 @@
 /* =========================================================================
-   Магазин-кафе «Богдана» — small enhancements (no libraries).
+   Піцерія Брусенки — small enhancements (no libraries).
    The site works without this file: phone links, menu and contacts are plain HTML.
    Runs after assets/js/render.js has put the texts from /data into the page.
    1. "Відчинено зараз" label — computed from the hours in data/contacts.js

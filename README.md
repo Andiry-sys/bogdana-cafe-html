@@ -1,4 +1,4 @@
-# Магазин-кафе «Богдана» — website
+# Піцерія Брусенки — website (у магазині-кафе «Богдана»)
 
 Plain HTML + CSS + JavaScript. **No build step, no frameworks.** Open `index.html` in a browser, edit in any editor,
 upload anywhere (GitHub Pages, Cloudflare Pages, any hosting).
@@ -139,7 +139,7 @@ published site (not from a folder or localhost), so your own tests are not count
 
 Google Analytics 4 (free):
 1. [analytics.google.com](https://analytics.google.com) → **Start measuring** / **Admin → Create → Property** →
-   name «Богдана», time zone Ukraine, currency UAH → business details → platform **Web**.
+   name «Піцерія Брусенки», time zone Ukraine, currency UAH → business details → platform **Web**.
 2. Website URL (the `.pages.dev` address or the domain) → **Create stream** → copy the **Measurement ID** `G-…`.
 3. `data/analytics.js` → `ga4: 'G-…'` → commit/push. Check: GA4 → **Reports → Realtime** while you open the site.
 4. After the first clicks: **Admin → Events** → mark `call_click` and `messenger_click` as **key events**
