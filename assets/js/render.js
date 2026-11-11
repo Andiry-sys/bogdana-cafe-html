@@ -200,7 +200,7 @@
     var tpl = document.getElementById('tpl-pizza');
     var frag = tpl.content.cloneNode(true);
     // "199 ₴" — an empty value removes the price element
-    p = Object.assign({ priceText: p.price ? p.price + '\u00a0' + ((S.common.pizza || {}).currency || '₴') : '' }, p);
+    p = Object.assign({ priceText: p.price ? p.price + '\u00a0' + ((S.common.pizza || {}).currency || '₴') + (p.unit ? '\u00a0/\u00a0' + p.unit : '') : '' }, p);
     fillItem(frag, p, 0);
     var article = frag.querySelector('[data-pizza-article]');
     article.id = p.id;
@@ -296,13 +296,15 @@
         hasMenuItem: M.pizzas.filter(function (p) { return p.category === c.id; }).map(function (p) {
           return { '@type': 'MenuItem', name: p.name, url: siteUrl + 'menu#' + p.id, image: siteUrl + 'assets/images/pizza/' + p.image + '-800.webp',
             description: (p.dough === false ? '' : S.common.pizza.dough + '; ') + p.ingredients.join(', ').toLowerCase() + '.',
-            offers: p.price ? { '@type': 'Offer', price: p.price, priceCurrency: 'UAH' } : undefined };
+            offers: p.price ? { '@type': 'Offer', price: p.price, priceCurrency: 'UAH',
+              // sold by weight → price per 1 kg
+              priceSpecification: p.unit === 'кг' ? { '@type': 'UnitPriceSpecification', price: p.price, priceCurrency: 'UAH', referenceQuantity: { '@type': 'QuantitativeValue', value: 1, unitCode: 'KGM' } } : undefined } : undefined };
         }),
       };
     }),
   } : {
     '@context': 'https://schema.org', '@type': 'Restaurant', name: C.fullName, alternateName: C.venue || undefined, url: siteUrl,
-    image: siteUrl + 'assets/images/og-image.jpg', telephone: C.phone, servesCuisine: 'Pizza', priceRange: (function () { var ps = (M.pizzas || []).map(function (p) { return p.price; }).filter(Boolean); return ps.length ? Math.min.apply(null, ps) + '–' + Math.max.apply(null, ps) + ' UAH' : '₴'; })(), hasMenu: siteUrl + 'menu',
+    image: siteUrl + 'assets/images/og-image.jpg', telephone: C.phone, servesCuisine: 'Pizza', priceRange: (function () { var ps = (M.pizzas || []).filter(function (p) { return p.dough !== false; }).map(function (p) { return p.price; }).filter(Boolean); return ps.length ? Math.min.apply(null, ps) + '–' + Math.max.apply(null, ps) + ' UAH' : '₴'; })(), hasMenu: siteUrl + 'menu',
     address: { '@type': 'PostalAddress', streetAddress: A.street, addressLocality: A.villageName, addressRegion: A.district + ', ' + A.region, addressCountry: 'UA' },
     geo: HAS_GEO ? { '@type': 'GeoCoordinates', latitude: Number(A.lat), longitude: Number(A.lng) } : undefined,
     hasMap: C.googleMaps || 'https://www.google.com/maps/search/?api=1&query=' + MAPS_Q,

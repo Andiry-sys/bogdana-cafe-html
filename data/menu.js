@@ -5,6 +5,7 @@
    assets/images/pizza/<image>-480.webp and <image>-800.webp.
    The link menu.html#<id> opens that pizza directly (handy for Instagram stories).
    price: number in ₴ (shown on the card and in the popup; remove the field to hide the price).
+   unit: optional — sold by weight etc.: unit: 'кг' shows «302 ₴ / кг».
    dough: false — hides «Тісто на живій заквасці…» in the popup (for pastry, desserts).
    Optional fields: tags: ['new'] (see `tags` below), nameIt: 'Margherita' (small Italian name on the card).
    ========================================================================= */
@@ -95,7 +96,7 @@ SITE.menu = {
 
     /* ---------- Випічка ---------- */
     {
-      id: 'eclair', category: 'pastry', image: 'eclair', dough: false, // price: 00,  ← add the price here
+      id: 'eclair', category: 'pastry', image: 'eclair', dough: false, price: 302, unit: 'кг',
       name: 'Еклер із сирною начинкою',
       short: 'Заварне тістечко з сирною начинкою',
       ingredients: ['Заварне тісто', 'Сирна начинка'],

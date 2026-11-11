@@ -22,7 +22,7 @@ SITE.common = {
     viberAria: 'Замовити у Viber',
     telegramAria: 'Замовити в Telegram',
     orderText: 'Добрий день! Хочу замовити піцу на самовивіз.',
-    orderPizzaText: 'Добрий день! Хочу замовити піцу «{pizza}» на самовивіз.', // {pizza} = name from the popup
+    orderPizzaText: 'Добрий день! Хочу замовити «{pizza}» на самовивіз.', // {pizza} = name from the popup (pizza or pastry)
   },
   close: 'Закрити',
   address: 'Адреса',
