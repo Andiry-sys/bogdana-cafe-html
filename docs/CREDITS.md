@@ -14,7 +14,8 @@ Unsplash photo for each slot — review it before use.
 | --- | --- | --- | --- | --- |
 | `hero/pizza-480.webp`<br>`hero/pizza-800.webp`<br>`hero/pizza-1200.webp` | Hero — top-down pizza (shown in a circle) | Cafe's own photo (Салямі), Nov 2026 | — | ✅ Real photo |
 | `pizza/salami-480.webp`<br>`pizza/salami-800.webp` | Menu — Салямі | Cafe's own photo, Nov 2026 | — | ✅ Real photo |
-| `pizza/chicken-480.webp`<br>`pizza/chicken-800.webp` | Menu — Піца з куркою | Illustrated placeholder (generated) | — | ⚠️ Placeholder — replace with a real photo |
+| `pizza/chicken-480.webp`<br>`pizza/chicken-800.webp` | Menu — Піца з куркою (card + popup photo 1) | Photo from the owner (styled), Nov 2026 | — | ✅ From the client |
+| `pizza/chicken-2-480.webp`<br>`pizza/chicken-2-800.webp` | Menu — Піца з куркою, popup photo 2 | Photo from the owner (styled), Nov 2026 | — | ✅ From the client |
 | `pizza/quattro-formaggi-480.webp`<br>`pizza/quattro-formaggi-800.webp` | Menu — Чотири сири | Illustrated placeholder (generated) | — | ⚠️ Placeholder — replace with a real photo |
 | `pizza/mushroom-480.webp`<br>`pizza/mushroom-800.webp` | Menu — Грибна | Illustrated placeholder (generated) | — | ⚠️ Placeholder — replace with a real photo |
 | `pizza/margherita-480.webp`<br>`pizza/margherita-800.webp` | Menu — Маргарита | Illustrated placeholder (generated) | — | ⚠️ Placeholder — replace with a real photo |

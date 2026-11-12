@@ -357,6 +357,17 @@
     }) });
     document.head.appendChild(faqLd);
   }
+  // Which picture Google should show next to this page in search results: the real-photo preview image
+  if (ld) {
+    var ogImg = document.querySelector('meta[property="og:image"]');
+    if (ogImg) {
+      var pageLd = document.createElement('script');
+      pageLd.type = 'application/ld+json';
+      pageLd.textContent = JSON.stringify({ '@context': 'https://schema.org', '@type': isMenu ? 'CollectionPage' : 'WebPage', url: canonical ? canonical.href : location.href,
+        name: document.title, primaryImageOfPage: { '@type': 'ImageObject', url: ogImg.content, width: 1200, height: 630 } });
+      document.head.appendChild(pageLd);
+    }
+  }
   document.documentElement.classList.add('ready'); // show the filled page (see style.css)
   if (ld) {
     var script = document.createElement('script');
