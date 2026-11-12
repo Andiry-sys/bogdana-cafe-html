@@ -8,7 +8,7 @@
  *
  * Put JPG/PNG/WebP photos into tools/photos/ named after the slot they replace:
  *   hero.jpg                       → assets/images/hero/pizza-480|800|1200.webp   (square, shown in a circle)
- *   pizza-<image>.jpg              → assets/images/pizza/<image>-480|800.webp     (4:3 menu card; <image> = "image" in data/menu.js)
+ *   pizza-<image>.jpg              → assets/images/pizza/<image>-480|800|1200.webp    (4:3 menu card; <image> = "image" in data/menu.js)
  *   instagram-1.jpg … -6.jpg       → assets/images/instagram/1…6-320|640.webp    (square)
  * The script crops smartly (keeps the food in frame), resizes, converts to WebP and applies one
  * "house look" so photos from different phones match. iPhone HEIC is not supported — use JPG.
@@ -30,7 +30,7 @@ const slotFor = (name) => {
   if (name === 'hero' || name === 'hero-pizza') return { dir: 'hero', base: 'pizza', widths: [480, 800, 1200], ratio: 1, position: 'centre' };
   const ig = name.match(/^(?:instagram|ig)-(\d)$/);
   if (ig) return { dir: 'instagram', base: ig[1], widths: [320, 640], ratio: 1 };
-  return { dir: 'pizza', base: name.replace(/^pizza-/, ''), widths: [480, 800], ratio: 3 / 4 }; // menu cards (4:3)
+  return { dir: 'pizza', base: name.replace(/^pizza-/, ''), widths: [480, 800, 1200], ratio: 3 / 4 }; // menu cards (4:3) + 1200 for the big popup photo
 };
 
 const files = (await readdir(IN).catch(() => [])).filter((f) => /\.(jpe?g|png|webp)$/i.test(f));

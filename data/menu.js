@@ -7,6 +7,9 @@
    price: number in ₴ (shown on the card and in the popup; remove the field to hide the price).
    unit: optional — sold by weight etc.: unit: 'кг' shows «302 ₴ / кг».
    dough: false — hides «Тісто на живій заквасці…» in the popup (for pastry, desserts).
+   placeholder: true — the picture is a drawn placeholder from assets/images/placeholders/ (not shown in Google).
+     When the real photo arrives: put it into assets/images/pizza/ (tools/process-photos.mjs makes the sizes)
+     and delete `placeholder: true`.
    morePhotos: optional extra photos for the popup (swipe / dots), e.g.
      morePhotos: [{ image: 'eclair-2', alt: 'What is in the photo' }]  → assets/images/pizza/eclair-2-480.webp / -800.webp
      The card always shows `image`; the popup shows `image` first, then morePhotos.
@@ -58,42 +61,42 @@ SITE.menu = {
       ],
     },
     {
-      id: 'quattro-formaggi', category: 'pizza', image: 'quattro-formaggi', price: 250,
+      id: 'quattro-formaggi', category: 'pizza', image: 'quattro-formaggi', placeholder: true, price: 250,
       name: 'Чотири сири',
       short: 'Соус бешамель, моцарела, брі, горгонзола, пармезан',
       ingredients: ['Соус бешамель', 'Моцарела', 'Брі', 'Горгонзола', 'Пармезан'],
       alt: 'Піца «Чотири сири» з розплавленим сиром',
     },
     {
-      id: 'mushroom', category: 'pizza', image: 'mushroom', price: 198,
+      id: 'mushroom', category: 'pizza', image: 'mushroom', placeholder: true, price: 198,
       name: 'Грибна',
       short: 'Соус бешамель, моцарела, печериці, білі гриби, дорблю',
       ingredients: ['Соус бешамель', 'Моцарела', 'Печериці', 'Білі гриби', 'Сир дорблю'],
       alt: 'Грибна піца з печерицями та білими грибами',
     },
     {
-      id: 'margherita', category: 'pizza', image: 'margherita', price: 140,
+      id: 'margherita', category: 'pizza', image: 'margherita', placeholder: true, price: 140,
       name: 'Маргарита',
       short: 'Соус пелаті, моцарела, помідори',
       ingredients: ['Соус пелаті', 'Моцарела', 'Помідори'],
       alt: 'Піца «Маргарита» з моцарелою та помідорами',
     },
     {
-      id: 'quattro-stagioni', category: 'pizza', image: 'quattro-stagioni', price: 304,
+      id: 'quattro-stagioni', category: 'pizza', image: 'quattro-stagioni', placeholder: true, price: 304,
       name: 'Чотири сезони',
       short: 'Соус пелаті, моцарела, бекон, гриби, салямі, оливки',
       ingredients: ['Соус пелаті', 'Моцарела', 'Бекон', 'Гриби', 'Салямі', 'Оливки'],
       alt: 'Піца «Чотири сезони» з беконом, грибами, салямі та оливками',
     },
     {
-      id: 'caesar', category: 'pizza', image: 'caesar', price: 289,
+      id: 'caesar', category: 'pizza', image: 'caesar', placeholder: true, price: 289,
       name: 'Цезар',
       short: 'Соус бешамель, куряче філе, моцарела, помідори, пармезан, листя салату',
       ingredients: ['Соус бешамель', 'Куряче філе', 'Моцарела', 'Помідори', 'Пармезан', 'Листя салату'],
       alt: 'Піца «Цезар» з куркою, помідорами та листям салату',
     },
     {
-      id: 'hawaiian', category: 'pizza', image: 'hawaiian', price: 250, tags: ['new'],
+      id: 'hawaiian', category: 'pizza', image: 'hawaiian', placeholder: true, price: 250, tags: ['new'],
       name: 'Гавайська',
       short: 'Вершковий соус, моцарела, куряче філе, ананаси',
       ingredients: ['Вершковий соус', 'Моцарела', 'Куряче філе', 'Ананаси'],

@@ -1,4 +1,12 @@
 User-agent: *
 Allow: /
+# Drawn placeholder pictures (until the cafe sends real photos) — keep them out of Google / Bing image search
+# and out of the small picture next to the site in search results. Real photos are in /assets/images/pizza/.
+Disallow: /assets/images/placeholders/
+Disallow: /assets/images/instagram/1-
+Disallow: /assets/images/instagram/2-
+Disallow: /assets/images/instagram/3-
+Disallow: /assets/images/instagram/4-
+Disallow: /assets/images/instagram/5-
 
 Sitemap: https://pizza-brusenky.com.ua/sitemap.xml

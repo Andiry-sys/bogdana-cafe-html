@@ -64,7 +64,10 @@ Rules for texts in `/data`:
 - `{readyMinutes}`, `{street}`, `{villageName}`, `{fermentationHours}` … are filled in automatically.
 
 **Add a pizza:** copy one `{ … },` block in `data/menu.js`, give it a new `id` and `image`, put photos into
-`assets/images/pizza/<image>-480.webp` and `-800.webp`. `menu.html#<id>` opens that pizza directly.
+`assets/images/pizza/<image>-480.webp`, `-800.webp` and `-1200.webp` (the big photo in the popup; `npm run photos` in `tools/` makes all three).
+`menu.html#<id>` opens that pizza directly.
+Drawn placeholder pictures live in `assets/images/placeholders/` and are marked `placeholder: true` in `data/menu.js`;
+`robots.txt` keeps them out of Google image search. When the real photo arrives, put it into `pizza/` and delete `placeholder: true`.
 Several photos for one item: add `morePhotos: [{ image: 'name-2', alt: '…' }]` — the popup then shows swipeable photos with dots.
 Sold by weight / per piece: `unit: 'кг'` or `unit: 'шт'` → «302 ₴ / кг».
 

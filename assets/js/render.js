@@ -196,6 +196,18 @@
 
   /* ---------- 2. pizzas (cards + popups) ---------- */
   var M = S.menu || {};
+  // Photos: real ones live in assets/images/pizza/ (480, 800, 1200 px wide);
+  // drawn placeholders (placeholder: true in data/menu.js) in assets/images/placeholders/ (480, 800) — hidden from image search (robots.txt)
+  var POPUP_SIZES = '(min-width: 1100px) 600px, (min-width: 640px) 55vw, 100vw';
+  function photoBase(p, image) { return 'assets/images/' + (p.placeholder ? 'placeholders/' : 'pizza/') + image; }
+  function setPhoto(img, base, hd, sizes) {
+    img.src = base + '-800.webp';
+    img.srcset = base + '-480.webp 480w, ' + base + '-800.webp 800w' + (hd ? ', ' + base + '-1200.webp 1200w' : '');
+    img.sizes = sizes;
+    // no -1200 file (e.g. a photo added with the old converter) → fall back to the 800 px one
+    if (hd) img.addEventListener('error', function fb() { img.removeEventListener('error', fb); img.removeAttribute('srcset'); img.src = base + '-800.webp'; });
+  }
+
   function renderPizza(p, eager) {
     var tpl = document.getElementById('tpl-pizza');
     var frag = tpl.content.cloneNode(true);
@@ -212,10 +224,8 @@
     dlg.setAttribute('aria-labelledby', 'pz-' + p.id + '-title');
     frag.querySelector('.pdialog__title').id = 'pz-' + p.id + '-title';
     $$('[data-pizza-img]', frag).forEach(function (img, i) {
-      var base = 'assets/images/pizza/' + p.image;
-      img.src = base + '-800.webp';
-      img.srcset = base + '-480.webp 480w, ' + base + '-800.webp 800w';
-      img.sizes = i === 0 ? '(min-width: 1024px) 360px, (min-width: 640px) 45vw, 92vw' : '(min-width: 640px) 340px, 100vw';
+      // i = 0: menu card (480/800). i = 1: big photo in the popup (+1200 for sharp phone/retina screens)
+      setPhoto(img, photoBase(p, p.image), i === 1 && !p.placeholder, i === 0 ? '(min-width: 1024px) 360px, (min-width: 640px) 45vw, 92vw' : POPUP_SIZES);
       if (i === 0) {
         img.alt = p.alt || p.name;
         if (eager) { img.removeAttribute('loading'); img.setAttribute('fetchpriority', 'high'); }
@@ -232,10 +242,8 @@
       first.alt = p.alt || p.name;
       track.appendChild(first);
       extra.forEach(function (ph, n) {
-        var img = document.createElement('img'), base = 'assets/images/pizza/' + ph.image;
-        img.src = base + '-800.webp';
-        img.srcset = base + '-480.webp 480w, ' + base + '-800.webp 800w';
-        img.sizes = '(min-width: 640px) 340px, 100vw';
+        var img = document.createElement('img');
+        setPhoto(img, photoBase({}, ph.image), true, POPUP_SIZES);
         img.width = 800; img.height = 600; img.loading = 'lazy'; img.decoding = 'async';
         img.alt = ph.alt || p.name + ' — ' + (n + 2);
         track.appendChild(img);
@@ -327,7 +335,7 @@
       return {
         '@type': 'MenuSection', name: (c.title + ' ' + (M.page.sectionSuffix || '')).trim(),
         hasMenuItem: M.pizzas.filter(function (p) { return p.category === c.id; }).map(function (p) {
-          return { '@type': 'MenuItem', name: p.name, url: siteUrl + 'menu#' + p.id, image: siteUrl + 'assets/images/pizza/' + p.image + '-800.webp',
+          return { '@type': 'MenuItem', name: p.name, url: siteUrl + 'menu#' + p.id, image: p.placeholder ? undefined : siteUrl + 'assets/images/pizza/' + p.image + '-1200.webp', // only real photos go to Google
             description: (p.dough === false ? '' : S.common.pizza.dough + '; ') + p.ingredients.join(', ').toLowerCase() + '.',
             offers: p.price ? { '@type': 'Offer', price: p.price, priceCurrency: 'UAH',
               // sold by weight → price per 1 kg
