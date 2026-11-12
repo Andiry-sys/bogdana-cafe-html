@@ -320,6 +320,16 @@ html[data-open-now="false"] .live-dot::before { opacity: 0; animation: none; }
 .pdialog__media { aspect-ratio: 2 / 1; overflow: hidden; background: var(--cream-3); }
 @media (min-width: 640px) { .pdialog__media { aspect-ratio: auto; } }
 .pdialog__media img { width: 100%; height: 100%; object-fit: cover; }
+/* several photos: swipe / dots */
+.pdialog__media { position: relative; }
+.pgallery { display: flex; height: 100%; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; }
+.pgallery::-webkit-scrollbar { display: none; }
+.pgallery img { flex: 0 0 100%; scroll-snap-align: start; scroll-snap-stop: always; }
+.pgallery__dots { position: absolute; inset: auto 0 0.4rem; display: flex; justify-content: center; gap: 0.125rem; pointer-events: none; }
+.pgallery__dot { pointer-events: auto; display: grid; place-items: center; width: 1.5rem; height: 1.5rem; padding: 0; border: 0; background: none; cursor: pointer; }
+.pgallery__dot::before { content: ''; width: 0.5rem; height: 0.5rem; border-radius: 1rem; background: rgb(255 255 255 / 0.65); box-shadow: 0 0 0 1px rgb(0 0 0 / 0.12), 0 1px 3px rgb(0 0 0 / 0.35); transition: width 0.2s; }
+.pgallery__dot[aria-current="true"]::before { width: 1.25rem; background: #fff; }
+.pgallery__dot:focus-visible { outline: 2px solid #fff; outline-offset: -2px; border-radius: 1rem; }
 .pdialog__body { padding: 1.5rem 1.5rem 0; }
 @media (min-width: 640px) { .pdialog__body { padding: 2rem; } }
 .pdialog__it { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }

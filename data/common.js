@@ -38,8 +38,9 @@ SITE.common = {
     currency: '₴',
     ingredientsTitle: 'Склад',
     dough: 'Тісто на живій заквасці, без дріжджів',
-    prev: 'Попередня піца',
-    next: 'Наступна піца',
+    prev: 'Попередня позиція',
+    next: 'Наступна позиція',
+    photo: 'Фото {n} з {total}', // dots under the photos in the popup
   },
 
   footer: {

@@ -7,6 +7,9 @@
    price: number in ₴ (shown on the card and in the popup; remove the field to hide the price).
    unit: optional — sold by weight etc.: unit: 'кг' shows «302 ₴ / кг».
    dough: false — hides «Тісто на живій заквасці…» in the popup (for pastry, desserts).
+   morePhotos: optional extra photos for the popup (swipe / dots), e.g.
+     morePhotos: [{ image: 'eclair-2', alt: 'What is in the photo' }]  → assets/images/pizza/eclair-2-480.webp / -800.webp
+     The card always shows `image`; the popup shows `image` first, then morePhotos.
    Optional fields: tags: ['new'] (see `tags` below), nameIt: 'Margherita' (small Italian name on the card).
    ========================================================================= */
 window.SITE = window.SITE || {};
@@ -33,7 +36,7 @@ SITE.menu = {
   // One category → the category chips are hidden automatically. Add more to split the menu.
   categories: [
     { id: 'pizza', title: 'Наша піца', subtitle: 'Смачна піца зі свіжих інгредієнтів' },
-    { id: 'pastry', title: 'Випічка', subtitle: 'Солодке до кави або з собою' },
+    { id: 'pastry', title: 'Випічка', subtitle: 'Свіжа випічка до кави або з собою' },
   ],
 
   pizzas: [
@@ -100,7 +103,20 @@ SITE.menu = {
       name: 'Еклер із сирною начинкою',
       short: 'Заварне тістечко з сирною начинкою',
       ingredients: ['Заварне тісто', 'Сирна начинка'],
-      alt: 'Тістечка еклер із сирною начинкою на тарілці',
+      alt: 'Тістечка еклер із сирною начинкою, присипані цукровою пудрою',
+      morePhotos: [
+        { image: 'eclair-2', alt: 'Еклери із сирною начинкою на тарілці в кафе' },
+      ],
+    },
+    {
+      id: 'sausage', category: 'pastry', image: 'sausage', dough: false, price: 43, unit: 'шт',
+      name: 'Сосиска в тісті',
+      short: 'Пухка булочка із сосискою та кунжутом',
+      ingredients: ['Тісто', 'Сосиска', 'Кунжут'],
+      alt: 'Сосиски в тісті з кунжутом випікаються в духовці',
+      morePhotos: [
+        { image: 'sausage-2', alt: 'Сосиска в тісті в паперовому пакеті' },
+      ],
     },
   ],
 };

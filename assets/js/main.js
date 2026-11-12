@@ -123,7 +123,10 @@
       });
     });
     var x0 = null, y0 = 0;
-    dlg.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
+    dlg.addEventListener('touchstart', function (e) {
+      if (e.target.closest('[data-gallery]')) { x0 = null; return; } // swipe on several photos = next photo, not next item
+      x0 = e.touches[0].clientX; y0 = e.touches[0].clientY;
+    }, { passive: true });
     dlg.addEventListener('touchend', function (e) {
       if (x0 === null) return;
       var dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
@@ -131,6 +134,27 @@
       if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) stepPizza(dlg, dx < 0 ? 1 : -1);
     }, { passive: true });
   });
+  /* Several photos in a popup (data/menu.js → morePhotos): swipe or tap the dots */
+  var smooth = !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  document.querySelectorAll('[data-gallery]').forEach(function (g) {
+    var dots = g.parentNode.querySelectorAll('[data-gallery-dot]'), raf = 0;
+    g.addEventListener('scroll', function () {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(function () {
+        var i = Math.round(g.scrollLeft / (g.clientWidth || 1));
+        dots.forEach(function (d, k) { if (k === i) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current'); });
+      });
+    }, { passive: true });
+    var dlg = g.closest('dialog');
+    if (dlg) dlg.addEventListener('close', function () { g.scrollLeft = 0; }); // next time starts from the first photo
+  });
+  document.addEventListener('click', function (e) {
+    var d = e.target.closest('[data-gallery-dot]');
+    if (!d) return;
+    var g = d.parentNode.parentNode.querySelector('[data-gallery]');
+    g.scrollTo({ left: g.clientWidth * Number(d.getAttribute('data-gallery-dot')), behavior: smooth ? 'smooth' : 'auto' });
+  });
+
   document.addEventListener('click', function (e) {
     var b = e.target.closest('[data-pizza-nav]');
     if (b) stepPizza(b.closest('dialog'), Number(b.getAttribute('data-pizza-nav')), true);

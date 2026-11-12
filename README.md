@@ -65,6 +65,8 @@ Rules for texts in `/data`:
 
 **Add a pizza:** copy one `{ … },` block in `data/menu.js`, give it a new `id` and `image`, put photos into
 `assets/images/pizza/<image>-480.webp` and `-800.webp`. `menu.html#<id>` opens that pizza directly.
+Several photos for one item: add `morePhotos: [{ image: 'name-2', alt: '…' }]` — the popup then shows swipeable photos with dots.
+Sold by weight / per piece: `unit: 'кг'` or `unit: 'шт'` → «302 ₴ / кг».
 
 ## Run locally
 Double-click `index.html` (all paths are relative). Or serve the folder: `npx serve .` / `python -m http.server`.
