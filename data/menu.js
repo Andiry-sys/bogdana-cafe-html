@@ -27,7 +27,7 @@ SITE.menu = {
   },
 
   // 4 pizzas shown on the home page
-  featured: ['margherita', 'salami', 'quattro-formaggi', 'hawaiian'],
+  featured: ['quattro-stagioni', 'salami', 'quattro-formaggi', 'hawaiian'],
 
   tags: {
     veg: 'Вегетаріанська',
