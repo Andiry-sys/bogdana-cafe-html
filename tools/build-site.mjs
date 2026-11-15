@@ -1,5 +1,5 @@
 /* =========================================================================
-   Copies only the public site into _site/ (without tools/, docs/, README, .git…).
+   Copies only the public site into _site/ (without tools/, docs/, README, CLAUDE.md, .git…).
    Used by Cloudflare (build command; see wrangler.jsonc). No npm install needed.
    Also inlines assets/css/style.css and the data/*.js + render.js scripts into each page (faster first paint).
      node tools/build-site.mjs
@@ -14,7 +14,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(ROOT, '_site');
-const SKIP = new Set(['_site', 'tools', 'docs', 'node_modules', 'README.md', '.git', '.github', '.gitignore', '.wrangler', 'wrangler.jsonc', '.DS_Store', 'Thumbs.db']);
+const SKIP = new Set(['_site', 'tools', 'docs', 'node_modules', 'README.md', 'CLAUDE.md', '.git', '.github', '.gitignore', '.wrangler', 'wrangler.jsonc', '.DS_Store', 'Thumbs.db']);
 const PLACEHOLDER = 'https://USERNAME.github.io/bogdana-cafe/';
 
 rmSync(OUT, { recursive: true, force: true });
