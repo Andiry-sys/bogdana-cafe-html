@@ -2,7 +2,7 @@
    MENU — pizzas, categories, tags (used by menu.html and the 4 cards on index.html)
    Source: the cafe's paper menu.
    To add a pizza: copy one { … } block, give it a new unique id and photos
-   assets/images/pizza/<image>-480.webp and <image>-800.webp.
+   assets/images/pizza/<image>-480.webp, -800.webp and -1200.webp.
    The link menu.html#<id> opens that pizza directly (handy for Instagram stories).
    price: number in ₴ (shown on the card and in the popup; remove the field to hide the price).
    unit: optional — sold by weight etc.: unit: 'кг' shows «302 ₴ / кг».
@@ -11,7 +11,7 @@
      When the real photo arrives: put it into assets/images/pizza/ (tools/process-photos.mjs makes the sizes)
      and delete `placeholder: true`.
    morePhotos: optional extra photos for the popup (swipe / dots), e.g.
-     morePhotos: [{ image: 'eclair-2', alt: 'What is in the photo' }]  → assets/images/pizza/eclair-2-480.webp / -800.webp
+     morePhotos: [{ image: 'eclair-2', alt: 'What is in the photo' }]  → assets/images/pizza/eclair-2-480.webp / -800.webp / -1200.webp
      The card always shows `image`; the popup shows `image` first, then morePhotos.
    Optional fields: tags: ['new'] (see `tags` below), nameIt: 'Margherita' (small Italian name on the card).
    ========================================================================= */
@@ -48,24 +48,24 @@ SITE.menu = {
       name: 'Салямі',
       short: 'Соус пелаті, моцарела, салямі, оливки',
       ingredients: ['Соус пелаті', 'Моцарела', 'Салямі', 'Оливки'],
-      alt: 'Піца «Салямі» зі скибочками салямі та оливками',
+      alt: 'Піца «Салямі» зі скибочками салямі та чорними оливками на дерев’яній дошці',
     },
     {
       id: 'chicken', category: 'pizza', image: 'chicken', price: 215,
       name: 'Піца з куркою',
       short: 'Соус бешамель, моцарела, курка, бекон',
       ingredients: ['Соус бешамель', 'Моцарела', 'Курка', 'Бекон'],
-      alt: 'Піца з куркою та беконом на білому соусі, на пергаменті',
+      alt: 'Піца з куркою та беконом на білому соусі, на дерев’яній дошці з пергаментом',
       morePhotos: [
         { image: 'chicken-2', alt: 'Піца з куркою та беконом на темному столі' },
       ],
     },
     {
-      id: 'quattro-formaggi', category: 'pizza', image: 'quattro-formaggi', placeholder: true, price: 250,
+      id: 'quattro-formaggi', category: 'pizza', image: 'quattro-formaggi', price: 250,
       name: 'Чотири сири',
       short: 'Соус бешамель, моцарела, брі, горгонзола, пармезан',
       ingredients: ['Соус бешамель', 'Моцарела', 'Брі', 'Горгонзола', 'Пармезан'],
-      alt: 'Піца «Чотири сири» з розплавленим сиром',
+      alt: 'Піца «Чотири сири» з рум’яним розплавленим сиром і горгонзолою',
     },
     {
       id: 'mushroom', category: 'pizza', image: 'mushroom', placeholder: true, price: 198,
@@ -82,11 +82,11 @@ SITE.menu = {
       alt: 'Піца «Маргарита» з моцарелою та помідорами',
     },
     {
-      id: 'quattro-stagioni', category: 'pizza', image: 'quattro-stagioni', placeholder: true, price: 304,
+      id: 'quattro-stagioni', category: 'pizza', image: 'quattro-stagioni', price: 304,
       name: 'Чотири сезони',
       short: 'Соус пелаті, моцарела, бекон, гриби, салямі, оливки',
       ingredients: ['Соус пелаті', 'Моцарела', 'Бекон', 'Гриби', 'Салямі', 'Оливки'],
-      alt: 'Піца «Чотири сезони» з беконом, грибами, салямі та оливками',
+      alt: 'Піца «Чотири сезони» з беконом, печерицями, салямі та зеленими оливками',
     },
     {
       id: 'caesar', category: 'pizza', image: 'caesar', placeholder: true, price: 289,
@@ -96,11 +96,11 @@ SITE.menu = {
       alt: 'Піца «Цезар» з куркою, помідорами та листям салату',
     },
     {
-      id: 'hawaiian', category: 'pizza', image: 'hawaiian', placeholder: true, price: 250, tags: ['new'],
+      id: 'hawaiian', category: 'pizza', image: 'hawaiian', price: 250, tags: ['new'],
       name: 'Гавайська',
       short: 'Вершковий соус, моцарела, куряче філе, ананаси',
       ingredients: ['Вершковий соус', 'Моцарела', 'Куряче філе', 'Ананаси'],
-      alt: 'Піца «Гавайська» з куркою та ананасами',
+      alt: 'Піца «Гавайська» з куркою та шматочками ананаса на вершковому соусі',
     },
 
     /* ---------- Випічка ---------- */

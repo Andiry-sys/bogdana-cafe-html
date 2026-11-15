@@ -22,8 +22,9 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const IN = path.join(here, 'photos');
 const IMAGES = path.join(here, '..', 'assets', 'images');
 
-// House look: gentle auto-levels + a touch of warmth and saturation. Set NORMALIZE=false if photos are already edited.
-const LOOK = { normalize: true, warmth: 0.03, saturation: 1.06, brightness: 1.02 };
+// House look: gentle auto-levels + a touch of warmth and saturation.
+// Photos that are already edited (e.g. made in one style with GPT): `LOOK=off npm run photos` — only crop, resize, WebP.
+const LOOK = process.env.LOOK === 'off' ? null : { normalize: true, warmth: 0.03, saturation: 1.06, brightness: 1.02 };
 
 // slot → output folder, file base name, sizes
 const slotFor = (name) => {
@@ -46,10 +47,13 @@ for (const file of files) {
   await mkdir(outDir, { recursive: true });
   for (const w of p.widths) {
     let img = sharp(path.join(IN, file)).rotate();
-    if (LOOK.normalize) img = img.normalise({ lower: 1, upper: 99.5 });
+    if (LOOK) {
+      if (LOOK.normalize) img = img.normalise({ lower: 1, upper: 99.5 });
+      img = img
+        .linear([1 + LOOK.warmth, 1, 1 - LOOK.warmth], [0, 0, 0])
+        .modulate({ saturation: LOOK.saturation, brightness: LOOK.brightness });
+    }
     img = img
-      .linear([1 + LOOK.warmth, 1, 1 - LOOK.warmth], [0, 0, 0])
-      .modulate({ saturation: LOOK.saturation, brightness: LOOK.brightness })
       .resize(w, Math.round(w * p.ratio), { fit: 'cover', position: p.position ?? sharp.strategy.attention })
       .sharpen({ sigma: 0.6 })
       .webp({ quality: 78, effort: 6 });
